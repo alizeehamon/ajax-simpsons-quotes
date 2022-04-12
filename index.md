@@ -1,37 +1,71 @@
-## Welcome to GitHub Pages
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
 
-You can use the [editor on GitHub](https://github.com/alizeehamon/ajax-simpsons-quotes/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+		<title>Ajax quest challenge</title>
+		<link rel="icon" type="image/png" href="favicon.png" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/bulma@0.7.5/css/bulma.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+			integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+			crossorigin="anonymous"
+		/>
+		<style></style>
+	</head>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+	<body>
+		<section class="section">
+			<div class="container">
+				<h1 class="title">Simpson API</h1>
 
-### Markdown
+				<div class="content" id="chuck-norris"></div>
+			</div>
+		</section>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/alizeehamon/ajax-simpsons-quotes/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+		<!-- We need to load axios first! -->
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"
+			integrity="sha256-S1J4GVHHDMiirir9qsXWc8ZWw74PHHafpsHp5PXtjTs="
+			crossorigin="anonymous"
+		></script>
+		<script>// This function loads pokemon data from the Pokemon API
+            function fetchSimpsonQuoteJSON() {
+                // Feel free to download this HTML and edit it, to use another Pokemon ID
+                const url = `https://simpsons-quotes-api.herokuapp.com/quotes/`;
+                axios.get(url)
+                  .then(function(response) {
+                    return response.data; // response.data instead of response.json() with fetch
+                  })
+                  .then(function(simpson) {
+                    console.log('data decoded from JSON:', simpson);
+              
+                    // Build a block of HTML
+                    const simpsonHtml = `
+                      <p><strong>${simpson[0].character}</strong></p>
+                      <img src="${simpson[0].image}" />
+                      <p><strong>${simpson[0].quote}</strong></p>
+                      <button id="myBtn">Get one quote</button>
+                    `;
+                    document.querySelector('#chuck-norris').innerHTML = simpsonHtml;
+                    const element = document.getElementById("myBtn");
+                    element.addEventListener("click", fetchSimpsonQuoteJSON);
+                  });
+              }
+              
+              fetchSimpsonQuoteJSON();
+              </script>
+	</body>
+</html>
